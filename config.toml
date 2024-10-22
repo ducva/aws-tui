@@ -1,0 +1,5 @@
+aws_profiles = [
+    default
+    resola-prod
+    resolastaging
+]
