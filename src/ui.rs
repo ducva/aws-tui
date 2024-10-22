@@ -23,7 +23,7 @@ pub fn render(app: &mut App, frame: &mut Frame) {
         ))
         .block(
             Block::bordered()
-                .title("Template")
+                .title(format!("AWS Profile: {}", app.aws_profile_name))
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )

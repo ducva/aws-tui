@@ -10,6 +10,8 @@ pub struct App {
     pub running: bool,
     /// AWS profiles
     pub aws_profiles: Vec<String>,
+    /// AWS profile name
+    pub aws_profile_name: String,
     /// counter
     pub counter: u8,
 }
@@ -19,6 +21,7 @@ impl Default for App {
         Self {
             running: true,
             aws_profiles: Vec::new(),
+            aws_profile_name: String::new(),
             counter: 0,
         }
     }
@@ -26,8 +29,13 @@ impl Default for App {
 
 impl App {
     /// Constructs a new instance of [`App`].
-    pub fn new(_aws_profiles: Vec<String>) -> Self {
-        Self::default()
+    pub fn new(aws_profiles: Vec<String>) -> Self {
+        let aws_profile_name = aws_profiles.first().cloned().unwrap_or_default();
+        Self {
+            aws_profiles,
+            aws_profile_name,
+            ..Self::default()
+        }
     }
 
     /// Handles the tick event of the terminal.

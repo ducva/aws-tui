@@ -1,6 +1,7 @@
 use std::io;
 
 use ratatui::{backend::CrosstermBackend, Terminal};
+use clap::{Command as ClapApp, Arg};
 
 use crate::{
     app::{App, AppResult},
@@ -18,8 +19,20 @@ pub mod ui;
 
 #[tokio::main]
 async fn main() -> AppResult<()> {
+    // Parse command-line arguments
+    let matches = ClapApp::new("aws-tui")
+        .arg(
+            Arg::new("profile")
+                .short('p')
+                .long("profile")
+                .help("AWS profile name"),
+        )
+        .get_matches();
+
+    let aws_profile = matches.get_one::<String>("profile").unwrap_or(&"default".to_string()).to_string();
+
     // Read the configuration
-    let aws_profiles = vec![String::from("default")];
+    let aws_profiles = vec![aws_profile];
 
     // Create an application.
     let mut app = App::new(aws_profiles);
